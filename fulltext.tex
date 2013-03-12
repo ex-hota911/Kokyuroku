@@ -1,0 +1,612 @@
+\documentclass[10pt,a4paper,twocolumn]{jarticle}
+%\documentclass[10pt,a4paper]{jarticle}
+
+\usepackage{amsmath,amssymb}
+\usepackage[dvipdfm]{graphicx}
+\usepackage{amsthm}
+\usepackage{underscore}
+\usepackage{time}
+
+\theoremstyle{definition}
+\newtheorem{theorem}{定理}%[section]
+\newtheorem{lemma}[theorem]{補題}
+\newtheorem{corollary}[theorem]{系}
+\newtheorem{definition}[theorem]{定義}
+\newtheorem{claim}[theorem]{主張}
+\newtheorem*{assumption}{仮定}
+\theoremstyle{remark}
+\renewcommand{\proofname}{\bf 証明}
+
+
+\newcommand{\R}{\mathbf R}
+\newcommand{\N}{\mathbf N}
+\newcommand{\Q}{\mathbf Q}
+\newcommand{\Z}{\mathbf Z}
+\newcommand{\D}{D}
+\newcommand{\classfont}{\mathbf}
+\newcommand{\co}{\text{co-}}
+\newcommand{\AC}{\classfont{AC}}
+\newcommand{\TC}{\classfont{TC}}
+\newcommand{\NC}{\classfont{NC}}
+\renewcommand{\L}{\classfont{L}}
+\newcommand{\NL}{\classfont{NL}}
+\renewcommand{\P}{\classfont{P}}
+\newcommand{\PSPACE}{\classfont{PSPACE}}
+\newcommand{\LH}{\classfont{LH}}
+\newcommand{\NLH}{\classfont{NLH}}
+\newcommand{\cfL}{\classfont{LF}}
+\newcommand{\cfNL}{\classfont{NLF}}
+\newcommand{\probfont}{\text}
+\newcommand{\MOD}{\probfont{MOD}}
+\newcommand{\THRESH}{\probfont{THRESH}}
+\newcommand{\oneSTCONN}{\probfont{1-STCONN}}
+\newcommand{\STCONN}{\probfont{STCONN}}
+\newcommand{\FORMVAL}{\probfont{FORMVAL}}
+
+\newcommand{\dom}{\mathrm{dom}}
+\newcommand{\emptystring}{\varepsilon}
+
+\makeatletter
+
+\def\kouenbangou{20} %数字を自分の講演番号に書き換えて下さい．
+
+\def\ps@LAheadings{
+
+\def\@oddhead{}
+\def\@evenhead{}
+\def\@evenfoot{\hfil \kouenbangou\,--\,\thepage\hfill}
+\def\@oddfoot{\hfil \kouenbangou\,--\,\thepage\hfil}
+
+}
+
+\def\ps@LAtitleheadings{
+
+\def\@oddhead{2012年度冬のLAシンポジウム\,[\kouenbangou]\hfil}
+\def\@evenhead{}
+\def\@evenfoot{\hfil \kouenbangou\,--\,\thepage\hfill}
+\def\@oddfoot{\hfil \kouenbangou\,--\,\thepage\hfil}
+
+}
+
+\makeatother
+
+\pagestyle{LAheadings}
+
+\title{対数空間階層の相対化}
+\author{太田 浩行\thanks{東京大学} \and
+河村 彰星\thanks{第1著者に同じ}
+}
+\date{}
+
+\begin{document}
+
+\maketitle\thispagestyle{LAtitleheadings}
+
+\begin{abstract}
+計算量クラスの相対化の定義は各計算量クラスの計算モデルに依存し自明なものではなく, 計算量クラスによってはいくつもの定義が存在する.
+対数領域計算量クラス$\L$, $\NL$ と回路計算量クラス$\NC^i$, $\AC^i$ の間には
+$\NC^1 \subseteq \L \subseteq \NL \subseteq \AC^1$
+の包含関係が成り立つ一方で,
+これらクラスの相対化を考えたときに任意の神託についてこの
+包含関係を同時に満たす定義は Aehlig, Cook, Nguyen らの2007年の結果
+によって初めてもたらされた.
+$\NL$はその神託階層と等しいこと,
+つまり対数領域階層はその第一層である$\NL$に潰れることが, 
+Immerman-Szelepcs{\'e}nyi の定理により知られている.
+我々は対数領域階層の相対化を定義し, 
+その定義が適切であることの証拠として,
+任意の神託について上記の包含関係を満たすこと及び,
+非相対化クラスの$\AC^0$完全な問題が相対化クラスの$\AC^0(\alpha)$完全であること,
+Immerman-Szelepcs{\'e}nyi の定理や Savitch の定理の相対化版を満たすことを示す.
+\end{abstract}
+
+\section{導入}
+神託 $\alpha \subseteq \Sigma^*$ に対する計算量クラス $C$ の相対化とは,
+$C$ を計算するモデルが神託 $\alpha$ への
+質問を可能であるとき計算可能な言語の集合である.
+神託 $\alpha$ に対する計算量クラス $C$ の相対化を
+$C(\alpha)$と表記する\footnote{一般には $C^\alpha$ とも表記される.}.
+$C(\alpha)$は$C$の計算モデルに依存するため, クラス$C$と言語$\alpha$
+から自明に定義されるものではない.
+
+対数領域計算量クラス$\L$, $\NL$ と
+回路計算量クラス$\NC^i$, $\AC^i$ は
+\begin{equation*}
+ \NC^1 \subseteq \L \subseteq \NL \subseteq \AC^1
+\end{equation*}
+を満たす.
+一方で自明な相対化は,
+\begin{equation}
+ \NC^1(\alpha) \subseteq \L(\alpha) \subseteq \NL(\alpha) \subseteq \AC^1(\alpha) \label{property}
+\end{equation}
+を満たさないことが知られており,
+これらのクラスの相対化にはさまざまな相異なる定義が提案されてきた
+\cite{aehlig2007relativizing,buss1988relativized,ladner1976relativization,wilson1988measure}.
+
+
+Aehlig, Cook, Nguyen らは \eqref{property} の関係を満たす
+$\NC^1$, $\L$, $\NL$ の相対化を質問テープのスタックを持つ機械を用いて定義した
+\cite{aehlig2007relativizing}.
+その相対化は$\AC^0$還元について良い性質をもっており,
+非相対化クラスの$\AC^0$完全問題が,
+相対化クラスの$\AC^0(\alpha)$完全問題問題となっている.
+\begin{align}
+ \NC^1(\alpha) &= \AC^0 (\FORMVAL, \alpha), \notag
+ \\
+ \L(\alpha) &= \AC^0 (\oneSTCONN, \alpha), \label{eq:nl-in-ac0-stconn}
+ \\
+ \NL(\alpha) &\subseteq \AC^0(\STCONN, \alpha). \notag
+\end{align}
+ただし$\FORMVAL$は変数のない命題論理式の評価,
+$\oneSTCONN$は出次数が1以下に制限された有向グラフでの到達可能性問題,
+$\STCONN$は有向グラフでの到達可能性問題である.
+\eqref{eq:nl-in-ac0-stconn} において $\NL(\alpha)$ のみ
+$\AC^0(\STCONN, \alpha)$を含むか否かがわかっておらず, 
+彼らは $\NL'(\alpha) = \AC^0(\STCONN, \alpha)$を満たすような
+$\NL$ の相対化$\NL'(\alpha)$ を定義することを課題として述べている.
+
+
+$\AC^0$は補集合を取る操作について閉じているため,
+$\NL'(\alpha) = \AC^0(\STCONN, \alpha)$を満たすような定義を与えることで,
+Immerman-Szelepcs{\'e}nyi の定理 
+\cite{immerman1988nondeterministic,szelepcsenyi1988method}
+が系として導かれる.
+つまりそのような定義を与えることは,
+Immerman-Szelepcs{\'e}nyi の定理の別証を与えること以上に難しい.
+
+
+本稿では$\NL$の相対化ではなく,
+対数領域階層$\LH, \NLH$の相対化を2つのモデルで定義し,
+\begin{align*}
+ \LH(\alpha) &= \AC^0 (\oneSTCONN, \alpha),
+ \\
+ \NLH(\alpha) &= \AC^0(\STCONN, \alpha)
+\end{align*}
+及び
+\begin{equation*}
+ \NC^1(\alpha) \subseteq \LH(\alpha) \subseteq \NLH(\alpha) \subseteq \AC^1(\alpha)
+\end{equation*}
+を満たすことを示す.
+1つ目の定義は対数領域の各階層の機械が神託へ質問を可能になるよう定める.
+2つ目の定義は交替制機械に似た機構を持つ機械を相対化することにより定める.
+Immerman-Szelepcs{\'e}nyi の定理により$\NL$と神託階層$\NLH$は等しいため,
+$\NLH$の相対化を考えることで$\NL$についても知見が得られる.
+
+\section{回路計算量の相対化}
+
+回路計算量クラス$\NC^i$, $\AC^i$, $\AC^0(m)$, $\TC^0$ の相対化をAehlig等の定義
+\cite{aehlig2007relativizing} と同様に定義し,
+uniformity として DLOGTIME を採用する.
+\begin{definition}
+$\AC^i(\alpha)$ (resp. $\AC^i(m, \alpha)$, $\TC^0(\alpha)$) とは,
+神託ゲートを含む$\AC^i$ (resp. $\AC^i(m)$, $\TC^0$) 回路によって
+計算される言語のクラス.
+
+$\NC^i(\alpha)$ とは, 2入力AND, 2入力OR, NOT, 神託ゲートから構成され,
+深さが$O(\log^i(n))$, 神託ゲートのネストの深さが$O(\log^{i-1}(n))$
+である回路族によって計算される言語のクラス.
+\end{definition}
+ただし神託ゲート$\alpha$とは, 入力$x$にたいして $x \in \alpha$ ならば$1$を, 
+そうでなければ$0$を出力するゲートとする.
+
+このように定義されたクラスが非相対化クラスと同様の包含関係を満たす.
+\begin{gather*}
+ \AC^0(\alpha) \subseteq \AC^0(m, \alpha) \subseteq \TC^0(\alpha) \\
+ \subseteq \NC^1(\alpha) \subseteq \AC^1(\alpha) \subseteq \cdots \subseteq \P(\alpha).
+\end{gather*}
+
+$\AC^0(m)$, $\TC^0$, $\NC^1$ の $\AC^0$完全問題は, 
+それぞれの相対化の$\AC^0(\alpha)$完全問題である.
+\begin{lemma}
+\begin{align*}
+ \AC^0(m, \alpha) &= \AC^0(\MOD m, \alpha),
+ \\
+ \TC^0(\alpha) &= \AC^0(\THRESH, \alpha),
+ \\
+ \NC^1(\alpha) &= \AC^0(\FORMVAL, \alpha).
+\end{align*} 
+\end{lemma}
+
+
+\section{対数領域階層の相対化}
+\subsection{二つの神託を持つ機械による相対化}
+\label{subsection: two query tapes}
+\newcommand{\qqueryalpha}{q_{\text{query}}^\alpha}
+\newcommand{\qquerybeta}{q_{\text{query}}^\beta}
+\newcommand{\qyes}{q_{\text{yes}}}
+\newcommand{\qno}{q_{\text{no}}}
+\newcommand{\qacc}{q_{\text{accept}}}
+
+
+二つの神託$\alpha, \beta$を持ち(非)決定的に動作する機械$M$を以下の用に定義する.
+$M$は読込専用の入力テープと, 読書可能な作業テープ, 
+および2本の書込専用の質問テープ$T_\alpha, T_\beta$の4本のテープを持つ.
+$M$が$\alpha$(resp. $\beta$)に対する質問を行う際, 
+$T_\alpha$ (resp. $T_\beta$)上のセルのみが消去される.
+また非決定性ニ神託機械は \cite{ruzzo1984space} と同様に,
+質問テープが空でないとき決定的に動作するよう制限する.
+対数領域階層の相対化$\LH(\alpha)$と$\NLH(\alpha)$
+を以下のように定義する.
+\begin{align*}
+ \LH_0(\alpha) &= \L,
+\\
+ \LH_{i+1}(\alpha) &= \L(\alpha, \LH_i(\alpha)), 
+\\
+ \LH(\alpha) &= \bigcup_{i \in \N} \LH_i(\alpha),
+\\
+ \NLH_0(\alpha) &= \NL,
+\\
+ \NLH_{i+1}(\alpha) &= \NL(\alpha, \NLH_i(\alpha)), 
+\\
+ \NLH(\alpha) &= \bigcup_{i \in \N} \NLH_i(\alpha).
+\end{align*}
+ただし$\L(\alpha, \beta)$ と $\NL(\alpha, \beta)$ は
+二つの神託$\alpha, \beta$を持ち作業テープを使用領域が$O(\log(n))$で
+(非)決定的に動作する機械によって計算されるクラス.
+\begin{theorem}
+\begin{equation*}
+ \NC^1(\alpha) 
+ \subseteq \LH(\alpha)
+ \subseteq \NLH(\alpha)
+ \subseteq \AC^1(\alpha).
+\end{equation*}
+\end{theorem}
+$\NC^1$回路の値は出力からの深さ優先探索を行うことで
+対数領域で計算なことにより, 1つ目の包含関係が導かれる.
+2つ目の包含関係は定義より自明.
+3つ目の包含関係は次の定理より導かれる.
+
+
+\begin{theorem}
+ \label{theorem:main1}
+ \begin{align*}
+ \LH(\alpha) &= \AC^0(\oneSTCONN, \alpha),
+  \\
+ \NLH(\alpha) &= \AC^0(\STCONN, \alpha).
+ \end{align*}  
+\end{theorem}
+
+
+証明は次のページで行う.
+この定理より \cite{aehlig2007relativizing} で示された補題と同等の補題も示される.
+
+\begin{corollary}
+\label{corollary:start}
+以下の任意の2つのクラスを分割する神託$\alpha$が存在するならば,
+対応する相対化されていないクラスも分割される.
+\begin{gather*}
+ \AC^0(m, \alpha) 
+  \subseteq \TC^0(\alpha)
+  \subseteq \NC^1(\alpha)
+ \\
+  \subseteq \LH(\alpha)
+  \subseteq \NLH(\alpha)
+\end{gather*}
+\end{corollary}
+
+\begin{proof}
+ 非相対化クラス同士が等しければ, 
+ 対応する完全問題が互いに$\AC^0$還元可能に成る.
+ よって対応する相対化計算量クラスも等しくなる.
+\end{proof}
+
+定義より$\NLH(\alpha)$が合成について閉じていること, 
+つまり任意の$\beta \in \NLH(\alpha)$について
+\begin{equation*}
+\NLH(\beta) \subseteq \NLH(\alpha).
+\end{equation*}
+を満たすことは自明.
+
+階層全体が補集合を取る操作で閉じていることは自明であるが,
+各階層においても補集合を取る操作で閉じている.
+\begin{corollary}
+[相対化版 Immerman-Szelepcs{\'e}nyi の定理
+{\cite{immerman1988nondeterministic}\cite{szelepcsenyi1988method}}]
+\begin{equation*}
+ \NLH_i(\alpha) = \co\NLH_i(\alpha) 
+\end{equation*}
+\end{corollary}
+
+\begin{proof}
+ $\alpha, \beta$を任意の言語とする.
+ $\STCONN$ は $\L(\alpha, \beta)$ 多対一還元のもとで $\NL(\alpha, \beta)$完全.
+ $\STCONN \in \co\NL$ より $\NL(\alpha, \beta) \subseteq \co\NL(\alpha, \beta)$.
+ 逆も同様の議論から言えるため, $\NL(\alpha, \beta) = \co\NL(\alpha, \beta)$.
+\end{proof}
+
+
+$\classfont{L^2H}(\alpha)$は作業テープの使用領域が$O(\log^2)$,
+質問テープの使用領域が$n^{O(1)}$で抑えられる
+決定性神託機械の階層によって定義される計算量クラスとして定義する.
+\begin{corollary}[相対化版 Savitch の定理
+{\cite{savitch1970relationships}}]
+\label{corollary:end}
+\begin{equation*}
+ \NLH(\alpha) \subseteq \classfont{L^2H}(\alpha)
+\end{equation*}
+\end{corollary}
+
+\begin{proof}
+ $\STCONN \in \L^2$ より, 
+ $\AC^0(\STCONN, \alpha)$ 回路を深さ優先探索することで
+ $\classfont{L^2H}(\alpha)$で計算可能.
+\end{proof}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{proof}[\bf 定理\ref{theorem:main1}の証明]
+ $\NLH(\alpha) = \AC^0(\STCONN, \alpha)$ のみ示す.
+ $\LH(\alpha) = \AC^0(\oneSTCONN, \alpha)$ も同様にして示される.
+
+
+ (1) $\NLH(\alpha) \supseteq \AC^0(\STCONN, \alpha)$\\
+ 深さが高々$i$である$\AC^0(\STCONN, \alpha)$回路によって計算される言語は
+ $\NLH_i(\alpha)$に含まれること帰納的に示す.
+ 深さ$1$の回路, つまりAND, OR, NOT, $\STCONN$, $\alpha$ゲートの計算
+ はすべて$\NL(\alpha)$に含まれる.
+ $i > 1$のとき,
+ 出力のゲートに対する入力はそれぞれ高々深さ$i-1$の部分回路によって
+ 計算されているため$\NLH_{i-1}(\alpha)$に含まれる.
+ よって出力に対する各入力の値を神託に質問することで,
+ 出力ゲートの値は計算可能.
+
+ (2) $\NLH(\alpha) \subseteq \AC^0(\STCONN, \alpha)$\\
+ 以下の主張から $\NLH_i(\alpha) \subseteq \AC^0(\STCONN, \alpha)$
+ を帰納法により示す.
+\begin{claim}
+ \label{claim: NLsubseteqAC0STCONN}
+ 任意の神託 $\beta$ について,
+ \begin{equation*}
+  \NL(\alpha, \beta) \subseteq \AC^0(\STCONN, \alpha, \beta)
+ \end{equation*}
+\end{claim}
+ $i=0$のとき,
+ $\STCONN$は$\AC^0$還元で$\NL$完全であるため,
+ $\NLH_0(\alpha) \subseteq \AC^0(\STCONN)$.
+ $\NLH_i(\alpha) \subseteq \AC^0(\STCONN, \alpha)$と仮定すると,
+ \begin{align*}
+  \NLH_{i+1}(\alpha) 
+  & = 
+  \NL(\alpha, \NLH_i(\alpha)) \\
+  & \subseteq
+  \NL(\alpha, \AC^0(\STCONN, \alpha)) \\
+  & \subseteq
+  \AC^0(\STCONN, \alpha, \AC^0(\STCONN, \alpha)) \\
+  & =
+  \AC^0(\STCONN, \alpha).
+ \end{align*}
+任意の$i$について$\NLH_i(\alpha) \subseteq \AC^0(\STCONN, \alpha)$なので, $\NLH(\alpha) \subseteq \AC^0(\STCONN, \alpha)$.
+
+
+主張~\ref{claim: NLsubseteqAC0STCONN} を示す前に,
+二つの神託を持つ非決定性対数領域機械$M$は以下の制限を満たす
+同値な機械$M'$が存在することを示す.
+\begin{assumption}
+$\alpha$の質問テープに書き込むとき, $\beta$の質問テープが空でなければ,
+次に$\alpha$への質問を行うまで,
+$T_\beta$への書き込みおよび$\beta$への質問を行わない.
+$\alpha$と$\beta$を入れ替えても同様.
+\end{assumption}
+
+$M$から上記の制限を満たす$M'$を構成する.
+$M'$は$T_\alpha$, $T_\beta$が空であるかをテープに記録しながら$M$を模倣する.
+空の$T_\beta$に書き込むとき$T_\alpha \not = \emptystring$ならば
+その実行状態$u$を保存し, $M$が次に$\alpha$または$\beta$へ質問を行うまで
+$T_\beta$への書き込みを行わずに$M$を模倣する.
+$M$が先に$\beta$へ質問を行うとき, $M'$は今度は$T_\alpha$への書き込みを行わずに
+$u$から$M$の模倣を続け$\beta$へ質問を行い, $M$の模倣を続ける.
+$M$が先に$\alpha$への質問を行うとき, $\alpha$への質問を行いその答えを保存し,
+今度は$T_\alpha$への書き込みを行わずに$u$から$M$の模倣を続け,
+$\alpha$への質問は保存された答えを用いて$M$を模倣する.
+空の$T_\alpha$に書き込むとき$T_\beta \not = \emptystring$ならば,
+$\alpha$と$\beta$を入れ替えて同様に動作する.
+
+質問テープが空であるかの記録, 実行状態の記録, 神託の答えの記録は
+すべて$O(\log(n))$領域で可能であるため, $M'$は対数領域で動作する.
+このように動作する$M'$は確かに上記の仮定を満たし, $M$と同値である.
+
+\newcommand{\start}{\mathit{START}}
+\newcommand{\accept}{\mathit{ACCEPT}}
+主張~\ref{claim: NLsubseteqAC0STCONN} を示す.
+基本的な方針として対数領域非決定性二神託機械$M^{\alpha, \beta}(x)$の実行状態を
+頂点とする計算グラフを構成することで, $M^{\alpha, \beta}$が$x$を受理する
+計算パスが存在するか判定する.
+しかし質問テープの多項式サイズであるため, 
+実行状態に質問テープの状態を含めると計算グラフの頂点数が指数サイズになってしまう.
+そこで$M^{\alpha, \beta}(x)$の質問テープが空である実行状態のグラフ$G$を構成する.
+内部状態と作業テープ, ヘッドの位置の組を
+対数領域非決定性二神託機械$M^{\alpha, \beta}(x)$の(部分)実行状態と定義すると,
+長さ$n$の入力に対して$M$の部分実行状態の数を抑える多項式$p$が存在する.
+\[
+ u_1=\mathit{START}, u_2=\mathit{ACCEPT}, u_3, \dots, u_{p(n)}
+\]
+
+$G^0$を$\alpha$テープと$\beta$テープが共に空でない実行状態への遷移グラフとする.
+つまり$G^0$の頂点は部分実行状態$u$であり,
+$u$から$u'$へ神託への質問を行わずに決定的に遷移するとき,
+$G^0$において$u$から$u'$へ枝をはる.
+このような$G^0$は$x$を入力とする$\AC^0$回路で計算可能.
+
+次に$\alpha$テープが空で$\beta$テープが空でない状態への遷移グラフ$G^\alpha$
+を定義する.
+実行状態が$u$である$M^{\alpha, \beta}(x)$が次に到達する
+$\alpha$テープが空で$\beta$テープが空でない実行状態$u'$は以下のいずれかを満たす.
+\begin{enumerate}
+ \item $u$から$u'$へ決定的に遷移する
+ \item $u$は$\alpha$テープへ書き込みを行い,
+       決定的に遷移して次の$\alpha$へ神託への質問を行った結果$u'$へ至る.
+\end{enumerate}
+1は遷移テーブルによる遷移か$\alpha$へ$\varepsilon$を質問した結果の遷移なので,
+$\AC^0(\alpha)$回路で計算可能.
+2の条件をみたすとき, $M^{\alpha, \beta}$の完全な実行状態を
+部分実行状態と$\alpha$テープの状態, $\beta$テープの状態の組みで表すと,
+仮定より次のような実行パスが存在する.
+\begin{equation*}
+ (u, \varepsilon, Q^\beta), (v_0, Q^\alpha_0, Q^\beta), \dots, 
+  (v_n, Q^\alpha_n, Q^\beta), (u', \varepsilon, Q^\beta)
+\end{equation*}
+ただし $Q^\alpha_i$, $Q^\beta$ は $\alpha$, $\beta$テープの内容で,
+$Q^\alpha_i \not = \varepsilon$かつ$Q^\beta \not = \varepsilon$.
+$\beta$の質問テープが空でない状態から$\alpha$の質問を構成し始めているため,
+仮定により上記の実行パスでは$\beta$の質問テープへの書き込み及び質問を行わないため, $\beta$の質問テープの内容は $Q^\beta$ のまま変化しない.
+上記のようなパスが存在することと$\STCONN(u, v_n, G^0) = 1$ は同値であり,
+質問$Q^\alpha_n$は$x$と$G^0$を入力とする$\AC^0(\STCONN, \alpha)$
+回路で計算可能.
+よって$G^\alpha$は$x$を入力とする$\AC^0(\STCONN, \alpha)$回路で計算可能.
+$G^\beta$も同様に定義すると, 同様の議論によって
+$x$を入力とする$\AC^0(\STCONN, \beta)$回路で計算可能であることが
+示される.
+
+最後に質問テープが空である実行状態のグラフ$G$を構成する.
+質問テープが空で実行状態が$u$である$M^{\alpha, \beta}(x)$が次に到達する
+質問テープが空である実行状態$u'$は以下のいずれかを満たす.
+\begin{enumerate}
+ \item $u$は質問テープへの書き込みを行わず, $u'$へ遷移する.
+ \item $u$は$\alpha$テープへ書き込みを行い,
+       決定的に遷移して次の$\alpha$へ質問を行った結果$u'$へ至る.
+ \item $u$は$\beta$テープへ書き込みを行い,
+       決定的に遷移して次の$\beta$へ質問を行った結果$u'$へ至る.
+\end{enumerate}
+1は遷移テーブルによる遷移か$\alpha$または$\beta$へ空文字の質問による遷移なので,
+$\AC^0(\alpha, \beta)$回路で計算可能.
+$u$と$u'$が2の条件をみたすとき, 仮定より次のような実行パスが存在する.
+\begin{equation*}
+ (u, \varepsilon, \varepsilon), (v_0, Q^\alpha, \varepsilon), \dots, 
+  (v_n, Q^\alpha_n, \emptystring), (u', \varepsilon, \emptystring)
+\end{equation*}
+ただし $Q^\alpha_i$ は $\alpha$テープに書かれた質問で,
+$Q^\alpha_i \not = \varepsilon$.
+また$v_i$ は $v_{i+1}$へ決定的に遷移するか, または$\beta$への質問を
+構成し$\beta$へ質問をおこなって$v_{i+1}$至る.
+後者の遷移が行われるとき仮定より$Q_i = Q_{i+1}$ がなりたつ.
+上記のようなパスが存在するかは$x$と$G^\alpha$を入力とする$\AC^0(\STCONN, \beta)$回路で判定可能であり, パス$v_0, \dots, v_n$から$Q^\alpha_n$は構成可能.
+条件3も同様にして計算できるので, $G$は
+は$x$を入力とする$\AC^0(\STCONN, \alpha, \beta)$回路で計算可能.
+$\STCONN(\start, \accept, G) = M^{\alpha, \beta}(x)$より
+主張~\ref{claim: NLsubseteqAC0STCONN}は証明された. 
+
+\end{proof}
+
+
+\subsection{定数深さ分岐機械による相対化}
+\label{subsection: constant depth fork}
+分岐機械とは, 自身の実行状態のコピーを作成しその結果を受け取る
+特別な操作\emph{フォーク}を行う状態$q_{\text{fork}}$を持つ.
+分岐機械の内部状態が$q_{\text{fork}}$であるとき, 実行状態がコピーされる.
+コピー元を親プロセス, コピーを子プロセスと呼ぶ.
+親プロセスの内部状態は, 子プロセスが受理されるとき$q_{\text{YES}}$に遷移し, 
+そうでないとき$q_{\text{NO}}$に遷移する.
+あるプロセスのフォークの深さを,
+最初に実行されるプロセスを$1$,
+深さ$d$のプロセスの子プロセスを$d+1$として定義する.
+定数深さ分岐機械とは, フォークの深さが定数で抑えられる分岐機械である.
+
+対数領域で(非)決定的に動作し, 分岐の深さが高々$i$である分岐機械によって
+受理される言語を $\cfL_i$ と $\cfNL_i$ と表記し,
+$\cfL = \cup_i \cfL_i$, $\cfNL_i = \cup_i \cfNL_i$ と定義する.
+$\cfNL_i \subseteq \NLH_i$ かつ $\cfNL_1 = \NL$ より,
+$\cfNL = \NLH = \NL$. また $\cfL = \L$ は自明.
+
+$\cfL$と$\cfNL$の相対化を$\cfL(\alpha)$と$\cfNL(\alpha)$と定義する.
+ただし$\cfNL(\alpha)$はRST制限を考慮する.
+\begin{theorem}
+ \begin{align*}
+  \cfL(\alpha) &= \AC^0(\oneSTCONN, \alpha)
+  \\
+  \cfNL(\alpha) &= \AC^0(\STCONN, \alpha)
+ \end{align*}  
+\end{theorem}
+
+この定理により系\ref{corollary:start} から 系\ref{corollary:end}と同等の系が,
+$\cfL(\alpha), \cfNL(\alpha)$においても言える.
+
+\begin{proof}
+  $\cfNL(\alpha) = \AC^0(\STCONN, \alpha)$ のみ示す.
+ $\cfL(\alpha) = \AC^0(\oneSTCONN, \alpha)$ も同様にして示される.
+
+ (1) $\cfNL(\alpha) \supseteq \AC^0(\STCONN, \alpha)$
+ 
+ 回路を出力から深さ優先探索しながらゲートの値を求めていく.
+ 神託ゲートの各入力を出力とする部分回路は,
+ 神託ゲートのネストの深さが高々$i-1$なので深さ$i-1$の分岐機械で計算可能.
+
+ (2) $\cfNL(\alpha) \subseteq \AC^0(\STCONN, \alpha)$
+
+ 分岐機械の実行状態のグラフを構成する.
+ 対数領域非決定性定数深さ分岐機械$M^\alpha(x)$の(部分)実行状態とは,
+ 内部状態と作業テープ, ヘッドの位置の組とする.
+ 長さ$n$の入力に対して$M$の部分実行状態の数を抑える多項式$p$が存在する.
+ \[
+ u_1=\mathit{START}, u_2=\mathit{ACCEPT}, u_3, \dots, u_{p(n)}
+ \]
+
+ 高々深さ$i$の分岐を行う$M^\alpha(x)$の計算グラフ$G_i$を構成する.
+ $G_i$の頂点集合$V_i$は部分実行状態$u$の集合であり,
+ 辺集合$E_i$は$u'$が$u$の次のクエリが空な実行状態であるとき,
+ つまり$u$と$u'$が以下のいずれかを満たすとき$(u, u') \in E_i$.
+ \begin{enumerate}
+ \item $u$ は分岐もクエリテープへの書き込みも行わず,
+       $u'$へ遷移する.
+ \item $u$ は分岐を行い, $u'$へ遷移する;
+ \item $u$ はクエリテープに書きこみ,
+       決定的に遷移して神託へ質問を行った結果$u'$に至る.
+ \end{enumerate}
+ ただし分岐の深さは高々$i$とする.
+ RST制限よりクエリテープが空でなければ決定的に動作するため,
+ 実行状態$u$がクエリテープに書きこみを行うのであれば
+ 実行状態$u$から構成されるクエリは一つに定まり,
+ $u$から質問を構成して神託へ尋ねた結果至る実行状態$u'$は一つに定まる.
+
+ 上記の$G_i$において, $M^\alpha(x)$ がクエリテープが空の実行状態$u$から
+ クエリテープが空の実行状態$u'$へ高々深さ$i$のフォークを行い到達可能であること
+ と$\STCONN(G_i, u, u') = 1$は同値である. 
+ よって深さ$h$の非決定性分岐機械$M$と神託$\alpha$について
+ \begin{multline*}
+ \STCONN(G_h, \mathrm{START}, \mathrm{ACCEPT}) = 1 \\
+ \iff M^\alpha(x) \text{ は受理}
+ \end{multline*}
+ が成り立つ.
+ つまり$G_h$が$x$を入力とする$\AC^0(\STCONN, \alpha)$回路で計算可能
+ ならば, $\cfNL(\alpha) \subseteq \AC^0(\STCONN, \alpha)$.
+
+ 帰納法により $G_i$が$x$を入力とする$\AC^0(\STCONN, \alpha)$回路で
+ 計算可能であることを示す.
+ $G_i$ の枝集合 $E_i$ を上記の条件にあわせて $E^1_i, E^2_i, E^3_i$ に分割し,
+ それぞれが$x$を入力とする$\AC^0$回路で計算可能であることを示す.
+ $E^1_i$は有限サイズの遷移テーブルを確認すれば良いので
+ $x$を入力とする$\AC^0$回路で計算可能.
+
+ $E^2_i$が$\AC^0(\STCONN, \alpha)$回路で計算可能であることを示す.
+ $i=0$ のとき $E^2_0 = \emptyset$.
+ $u$ がフォークを行う実行状態のとき,
+ $(u, u') \in E^2_i$ を満たす $u'$ は
+ $\STCONN(G_{i-1}, u, ACCEPT)$ より計算可能.
+ よって$E^2_i$は$x$と$G_{i-1}$を入力とする$AC^0(\STCONN)$回路で計算でき,
+ 帰納法の仮定により$x$を入力とする$\AC^0(\STCONN, \alpha)$で計算可能.
+
+
+ $E^3_i$が$\AC^0(\STCONN, \alpha)$回路で計算可能であることを示す.
+ $(u, u') \in E^3_i$ の判定には, $u$から$u'$への決定的な計算パスの存在判定と,
+ その計算パスで構成されるクエリの計算が必要である.
+ そこでグラフ$G^q_i$を実行状態を頂点とし, $u$と$u'$が以下のいずれかを満たすとき
+ $u$から$u'$へ辺があるグラフとして定義する.
+ \begin{enumerate}
+ \item $u$ は分岐を行わず, 決定的に$u'$へ遷移する;
+ \item $u$ は分岐を行い$u'$へ遷移する.
+ \end{enumerate}
+ 1の枝集合は$E^1_i$と同様に$\AC^0$回路で計算可能.
+ 2の枝集合は$E^2_i$と等しい.
+ よって$G^q_i$は$\AC^0(\STCONN, \alpha)$で計算可能.
+ 実行状態$u$から構成されるクエリ$Q_u$は
+ $x$と$G^q_i$を入力とする$\AC^0(\STCONN)$回路で計算可能であるため,
+ よって$E^2_i$は$x$を入力とする$\AC^0(\STCONN, \alpha)$で計算可能.
+\end{proof}
+
+\bibliographystyle{plain}
+\bibliography{bibliography}
+
+\end{document}
