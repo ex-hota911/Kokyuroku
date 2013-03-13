@@ -204,7 +204,6 @@ $\AC^0(m)$, $\TC^0$, $\NC^1$ の $\AC^0$完全問題は,
 
 
 \section{対数領域階層の相対化}
-\subsection{二つの神託を持つ機械による相対化}
 \label{subsection: two query tapes}
 \newcommand{\qqueryalpha}{q_{\text{query}}^\alpha}
 \newcommand{\qquerybeta}{q_{\text{query}}^\beta}
@@ -214,8 +213,8 @@ $\AC^0(m)$, $\TC^0$, $\NC^1$ の $\AC^0$完全問題は,
 
 
 二つの神託$\alpha, \beta$を持ち(非)決定的に動作する機械$M$を以下の用に定義する.
-$M$は読込専用の入力テープと, 読書可能な作業テープ, 
-および2本の書込専用の質問テープ$T_\alpha, T_\beta$の4本のテープを持つ.
+$M$は読み込み専用の入力テープと, 読み書き可能な作業テープ, 
+および2本の書き込み専用の質問テープ$T_\alpha, T_\beta$の4本のテープを持つ.
 $M$が$\alpha$(resp. $\beta$)に対する質問を行う際, 
 $T_\alpha$ (resp. $T_\beta$)上のセルのみが消去される.
 また非決定性ニ神託機械は \cite{ruzzo1984space} と同様に,
@@ -237,7 +236,8 @@ $T_\alpha$ (resp. $T_\beta$)上のセルのみが消去される.
 \end{align*}
 ただし$\L(\alpha, \beta)$ と $\NL(\alpha, \beta)$ は
 二つの神託$\alpha, \beta$を持ち作業テープを使用領域が$O(\log(n))$で
-(非)決定的に動作する機械によって計算されるクラス.
+(非)決定的に動作する機械によって計算されるクラスである.
+
 \begin{theorem}
 \begin{equation*}
  \NC^1(\alpha) 
@@ -263,7 +263,8 @@ $\NC^1$回路の値は出力からの深さ優先探索を行うことで
 
 
 証明は次のページで行う.
-この定理より \cite{aehlig2007relativizing} で示された補題と同等の補題も示される.
+この定理より \cite{aehlig2007relativizing} と同様に
+以下の系等が示される.
 
 \begin{corollary}
 \label{corollary:start}
@@ -285,12 +286,12 @@ $\NC^1$回路の値は出力からの深さ優先探索を行うことで
  よって対応する相対化計算量クラスも等しくなる.
 \end{proof}
 
-定義より$\NLH(\alpha)$が合成について閉じていること, 
-つまり任意の$\beta \in \NLH(\alpha)$について
-\begin{equation*}
-\NLH(\beta) \subseteq \NLH(\alpha).
-\end{equation*}
-を満たすことは自明.
+%定義より$\NLH(\alpha)$が合成について閉じていること, 
+%つまり任意の$\beta \in \NLH(\alpha)$について
+%\begin{equation*}
+%\NLH(\beta) \subseteq \NLH(\alpha).
+%\end{equation*}
+%を満たすことは自明.
 
 階層全体が補集合を取る操作で閉じていることは自明であるが,
 各階層においても補集合を取る操作で閉じている.
@@ -307,6 +308,7 @@ $\NC^1$回路の値は出力からの深さ優先探索を行うことで
  $\STCONN$ は $\L(\alpha, \beta)$ 多対一還元のもとで $\NL(\alpha, \beta)$完全.
  $\STCONN \in \co\NL$ より $\NL(\alpha, \beta) \subseteq \co\NL(\alpha, \beta)$.
  逆も同様の議論から言えるため, $\NL(\alpha, \beta) = \co\NL(\alpha, \beta)$.
+ よって任意の$i$について $\NLH_i(\alpha) = \co\NLH_i(\alpha)$.
 \end{proof}
 
 
@@ -322,13 +324,10 @@ $\classfont{L^2H}(\alpha)$は作業テープの使用領域が$O(\log^2)$,
 \end{corollary}
 
 \begin{proof}
- $\STCONN \in \L^2$ より, 
- $\AC^0(\STCONN, \alpha)$ 回路を深さ優先探索することで
+ $\STCONN \in \L^2$, $\AC^0(\alpha) \subseteq \LH(\alpha)$ より, 
+ 任意の $\AC^0(\STCONN, \alpha)$ 回路の値は
  $\classfont{L^2H}(\alpha)$で計算可能.
 \end{proof}
-
-
-
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
