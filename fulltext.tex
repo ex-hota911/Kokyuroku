@@ -99,9 +99,9 @@
 
 
 \section{導入}
-神託 $\alpha \subseteq \Sigma^*$ に対する計算量クラス $C$ の相対化とは,
-$C$ を計算するモデルが神託 $\alpha$ への
-質問を可能であるとき計算可能な言語の集合である.
+神託 $\alpha$ に対する計算量クラス $C$ の相対化とは,
+$C$ を計算するモデルに神託 $\alpha$ を付け足した時に
+計算可能な言語の集合である.
 神託 $\alpha$ に対する計算量クラス $C$ の相対化を
 $C(\alpha)$と表記する\footnote{一般には $C^\alpha$ とも表記される.}.
 $C(\alpha)$は$C$の計算モデルに依存するため, クラス$C$と言語$\alpha$
@@ -112,22 +112,22 @@ $C(\alpha)$は$C$の計算モデルに依存するため, クラス$C$と言語$
 \begin{equation*}
  \NC^1 \subseteq \L \subseteq \NL \subseteq \AC^1
 \end{equation*}
-を満たす.
+の包含関係を満たす.
 一方で自明な相対化は,
 \begin{equation}
  \NC^1(\alpha) \subseteq \L(\alpha) \subseteq \NL(\alpha) \subseteq \AC^1(\alpha) \label{property}
 \end{equation}
 を満たさないことが知られており,
-これらのクラスの相対化にはさまざまな相異なる定義が提案されてきた
+これらのクラスの相対化の様々な定義が提案されてきた
 \cite{aehlig2007relativizing,buss1988relativized,ladner1976relativization,wilson1988measure}.
 
 
 Aehlig, Cook, Nguyen らは \eqref{property} の関係を満たす
-$\NC^1$, $\L$, $\NL$ の相対化を質問テープのスタックを持つ機械を用いて定義した
+$AC^i$, $\NC^i$, $\L$, $\NL$ の相対化を初めて定義した
 \cite{aehlig2007relativizing}.
-その相対化は$\AC^0$還元について良い性質をもっており,
+さらにそれら相対化は$\AC^0$還元について良い性質をもっており,
 非相対化クラスの$\AC^0$完全問題が,
-相対化クラスの$\AC^0(\alpha)$完全問題問題となっている.
+相対化クラスの$\AC^0(\alpha)$完全問題となっている. つまり
 \begin{align}
  \NC^1(\alpha) &= \AC^0 (\FORMVAL, \alpha), \notag
  \\
@@ -135,26 +135,25 @@ $\NC^1$, $\L$, $\NL$ の相対化を質問テープのスタックを持つ機�
  \\
  \NL(\alpha) &\subseteq \AC^0(\STCONN, \alpha). \notag
 \end{align}
-ただし$\FORMVAL$は変数のない命題論理式の評価,
-$\oneSTCONN$は出次数が1以下に制限された有向グラフでの到達可能性問題,
-$\STCONN$は有向グラフでの到達可能性問題である.
-\eqref{eq:nl-in-ac0-stconn} において $\NL(\alpha)$ のみ
-$\AC^0(\STCONN, \alpha)$を含むか否かがわかっておらず, 
+ただし$\NC^1$完全問題$\FORMVAL$は変数のない命題論理式の評価,
+$\L$完全問題$\oneSTCONN$は出次数が1以下に制限された有向グラフでの到達可能性問題,
+$\NL$完全問題$\STCONN$は有向グラフでの到達可能性問題である.
+
+式 \eqref{eq:nl-in-ac0-stconn} において $\NL(\alpha)$ のみ
+等号関係が成り立つか否かがわかっておらず, 
 彼らは $\NL'(\alpha) = \AC^0(\STCONN, \alpha)$を満たすような
 $\NL$ の相対化$\NL'(\alpha)$ を定義することを課題として述べている.
-
-
-$\AC^0$は補集合を取る操作について閉じているため,
+しかし$\AC^0$は補集合を取る操作について閉じているため,
 $\NL'(\alpha) = \AC^0(\STCONN, \alpha)$を満たすような定義を与えることで,
 Immerman-Szelepcs{\'e}nyi の定理 
 \cite{immerman1988nondeterministic,szelepcsenyi1988method}
 が系として導かれる.
 つまりそのような定義を与えることは,
-Immerman-Szelepcs{\'e}nyi の定理の別証を与えること以上に難しい.
+Immerman-Szelepcs{\'e}nyi の定理の別証を与えることと同等以上に難しい.
 
 
-本稿では$\NL$の相対化ではなく,
-対数領域階層$\LH, \NLH$の相対化を2つのモデルで定義し,
+そこで本稿では$\NL$の相対化ではなく,
+対数領域神託階層$\LH, \NLH$の自明な相対化が
 \begin{align*}
  \LH(\alpha) &= \AC^0 (\oneSTCONN, \alpha),
  \\
@@ -165,8 +164,6 @@ Immerman-Szelepcs{\'e}nyi の定理の別証を与えること以上に難しい
  \NC^1(\alpha) \subseteq \LH(\alpha) \subseteq \NLH(\alpha) \subseteq \AC^1(\alpha)
 \end{equation*}
 を満たすことを示す.
-1つ目の定義は対数領域の各階層の機械が神託へ質問を可能になるよう定める.
-2つ目の定義は交替制機械に似た機構を持つ機械を相対化することにより定める.
 Immerman-Szelepcs{\'e}nyi の定理により$\NL$と神託階層$\NLH$は等しいため,
 $\NLH$の相対化を考えることで$\NL$についても知見が得られる.
 
