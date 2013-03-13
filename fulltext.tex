@@ -167,24 +167,24 @@ Immerman-Szelepcs{\'e}nyi の定理の別証を与えることと同等以上に
 Immerman-Szelepcs{\'e}nyi の定理により$\NL$と神託階層$\NLH$は等しいため,
 $\NLH$の相対化を考えることで$\NL$についても知見が得られる.
 
+
 \section{回路計算量の相対化}
 
 回路計算量クラス$\NC^i$, $\AC^i$, $\AC^0(m)$, $\TC^0$ の相対化をAehlig等の定義
-\cite{aehlig2007relativizing} と同様に定義し,
-uniformity として DLOGTIME を採用する.
+\cite{aehlig2007relativizing} と同様に定義する.
+一様性としては DLOGTIME を採用する.
 \begin{definition}
 $\AC^i(\alpha)$ (resp. $\AC^i(m, \alpha)$, $\TC^0(\alpha)$) とは,
 神託ゲートを含む$\AC^i$ (resp. $\AC^i(m)$, $\TC^0$) 回路によって
-計算される言語のクラス.
-
+計算される言語のクラスである.
 $\NC^i(\alpha)$ とは, 2入力AND, 2入力OR, NOT, 神託ゲートから構成され,
 深さが$O(\log^i(n))$, 神託ゲートのネストの深さが$O(\log^{i-1}(n))$
-である回路族によって計算される言語のクラス.
+である回路族によって計算される言語のクラスである.
 \end{definition}
 ただし神託ゲート$\alpha$とは, 入力$x$にたいして $x \in \alpha$ ならば$1$を, 
 そうでなければ$0$を出力するゲートとする.
 
-このように定義されたクラスが非相対化クラスと同様の包含関係を満たす.
+このように定義されたクラスは非相対化クラスと同様の包含関係を満たす.
 \begin{gather*}
  \AC^0(\alpha) \subseteq \AC^0(m, \alpha) \subseteq \TC^0(\alpha) \\
  \subseteq \NC^1(\alpha) \subseteq \AC^1(\alpha) \subseteq \cdots \subseteq \P(\alpha).
