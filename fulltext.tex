@@ -122,7 +122,7 @@ $C(\alpha)$は$C$の計算モデルに依存するため, クラス$C$と言語$
 \cite{aehlig2007relativizing,buss1988relativized,ladner1976relativization,wilson1988measure}.
 
 
-Aehlig, Cook, Nguyen らは \eqref{property} の関係を満たす
+Aehlig, Cook, Nguyen は \eqref{property} の関係を満たす
 $AC^i$, $\NC^i$, $\L$, $\NL$ の相対化を初めて定義した
 \cite{aehlig2007relativizing}.
 さらにそれら相対化は$\AC^0$還元について良い性質をもっており,
@@ -143,17 +143,12 @@ $\NL$完全問題$\STCONN$は有向グラフでの到達可能性問題である
 等号関係が成り立つか否かがわかっておらず, 
 彼らは $\NL'(\alpha) = \AC^0(\STCONN, \alpha)$を満たすような
 $\NL$ の相対化$\NL'(\alpha)$ を定義することを課題として述べている.
-しかし$\AC^0$は補集合を取る操作について閉じているため,
-$\NL'(\alpha) = \AC^0(\STCONN, \alpha)$を満たすような定義を与えることで,
-Immerman-Szelepcs{\'e}nyi の定理 
-\cite{immerman1988nondeterministic,szelepcsenyi1988method}
-が系として導かれる.
-つまりそのような定義を与えることは,
-Immerman-Szelepcs{\'e}nyi の定理の別証を与えることと同等以上に難しい.
 
-
-そこで本稿では$\NL$の相対化ではなく,
-対数領域神託階層$\LH, \NLH$の自明な相対化が
+ところで Immerman-Szelepcs{\'e}nyi の定理により, 
+$\NL$は自らを第一層として定義される階層$\NLH$に等しい. 
+そこで本稿では$\L$や$\NL$の代りに
+そこから定義される階層$\LH$や$\NLH$について考える. 
+これらを適切に相対化したものが
 \begin{align*}
  \LH(\alpha) &= \AC^0 (\oneSTCONN, \alpha),
  \\
@@ -164,9 +159,15 @@ Immerman-Szelepcs{\'e}nyi の定理の別証を与えることと同等以上に
  \NC^1(\alpha) \subseteq \LH(\alpha) \subseteq \NLH(\alpha) \subseteq \AC^1(\alpha)
 \end{equation*}
 を満たすことを示す.
-Immerman-Szelepcs{\'e}nyi の定理により$\NL$と神託階層$\NLH$は等しいため,
-$\NLH$の相対化を考えることで$\NL$についても知見が得られる.
 
+なお$\AC^0$は補集合を取る操作について閉じているため,
+Aehlig, Cook, Nguyenの要請する
+$\NL'(\alpha) = \AC^0(\STCONN, \alpha)$が満たされるには, 
+$\NL' (\alpha)$もまた補集合について閉じている, 
+即ち Immerman-Szelepcs{\'e}nyi の定理 
+\cite{immerman1988nondeterministic,szelepcsenyi1988method}
+が相対化された形で成立つ必要がある. 
+そのような非決定対数空間計算の適切な相対化の定義を得るには至らなかった. 
 
 \section{回路計算量の相対化}
 
