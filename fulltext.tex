@@ -1,4 +1,4 @@
-\documentclass[10pt,a4paper,twocolumn]{jarticle}
+\documentclass[11pt,a4paper]{jsarticle}
 %\documentclass[10pt,a4paper]{jarticle}
 
 \usepackage{amsmath,amssymb}
@@ -46,32 +46,6 @@
 \newcommand{\dom}{\mathrm{dom}}
 \newcommand{\emptystring}{\varepsilon}
 
-\makeatletter
-
-\def\kouenbangou{20} %数字を自分の講演番号に書き換えて下さい．
-
-\def\ps@LAheadings{
-
-\def\@oddhead{}
-\def\@evenhead{}
-\def\@evenfoot{\hfil \kouenbangou\,--\,\thepage\hfill}
-\def\@oddfoot{\hfil \kouenbangou\,--\,\thepage\hfil}
-
-}
-
-\def\ps@LAtitleheadings{
-
-\def\@oddhead{2012年度冬のLAシンポジウム\,[\kouenbangou]\hfil}
-\def\@evenhead{}
-\def\@evenfoot{\hfil \kouenbangou\,--\,\thepage\hfill}
-\def\@oddfoot{\hfil \kouenbangou\,--\,\thepage\hfil}
-
-}
-
-\makeatother
-
-\pagestyle{LAheadings}
-
 \title{対数空間階層の相対化}
 \author{太田 浩行\thanks{東京大学} \and
 河村 彰星\thanks{第1著者に同じ}
@@ -80,7 +54,7 @@
 
 \begin{document}
 
-\maketitle\thispagestyle{LAtitleheadings}
+\maketitle
 
 %\begin{abstract}
 %計算量クラスの相対化の定義は各計算量クラスの計算モデルに依存し自明なものではなく, 計算量クラスによってはいくつもの定義が存在する.
@@ -123,7 +97,7 @@ $C(\alpha)$は$C$の計算モデルに依存するため, クラス$C$と言語$
 
 
 Aehlig, Cook, Nguyen は \eqref{property} の関係を満たす
-$AC^i$, $\NC^i$, $\L$, $\NL$ の相対化を初めて定義した
+$\AC^i$, $\NC^i$, $\L$, $\NL$ の相対化を初めて定義した
 \cite{aehlig2007relativizing}.
 さらにそれら相対化は$\AC^0$還元について良い性質をもっており,
 非相対化クラスの$\AC^0$完全問題が,
@@ -144,7 +118,7 @@ $\NL$完全問題$\STCONN$は有向グラフでの到達可能性問題である
 彼らは $\NL'(\alpha) = \AC^0(\STCONN, \alpha)$を満たすような
 $\NL$ の相対化$\NL'(\alpha)$ を定義することを課題として述べている.
 
-ところで Immerman-Szelepcs{\'e}nyi の定理により, 
+ところで Immerman-Szelepcs{\'e}nyi の定理\cite{immerman1988nondeterministic,szelepcsenyi1988method}により, 
 $\NL$は自らを第一層として定義される階層$\NLH$に等しい. 
 そこで本稿では$\L$や$\NL$の代りに
 そこから定義される階層$\LH$や$\NLH$について考える. 
@@ -167,7 +141,7 @@ $\NL' (\alpha)$もまた補集合について閉じている,
 即ち Immerman-Szelepcs{\'e}nyi の定理 
 \cite{immerman1988nondeterministic,szelepcsenyi1988method}
 が相対化された形で成立つ必要がある. 
-そのような非決定対数空間計算の適切な相対化の定義を得るには至らなかった. 
+そのような適切な$\NL$の相対化$\NL' (\alpha)$の定義を得るには至らなかった. 
 
 \section{回路計算量の相対化}
 
@@ -186,10 +160,10 @@ $\NC^i(\alpha)$ とは, 2入力AND, 2入力OR, NOT, 神託ゲートから構成�
 そうでなければ$0$を出力するゲートとする.
 
 このように定義されたクラスは非相対化クラスと同様の包含関係を満たす.
-\begin{gather*}
- \AC^0(\alpha) \subseteq \AC^0(m, \alpha) \subseteq \TC^0(\alpha) \\
+\begin{equation*}
+ \AC^0(\alpha) \subseteq \AC^0(m, \alpha) \subseteq \TC^0(\alpha) 
  \subseteq \NC^1(\alpha) \subseteq \AC^1(\alpha) \subseteq \cdots \subseteq \P(\alpha).
-\end{gather*}
+\end{equation*}
 
 $\AC^0(m)$, $\TC^0$, $\NC^1$ の $\AC^0$完全問題は, 
 それぞれの相対化の$\AC^0(\alpha)$完全問題である.
@@ -269,16 +243,16 @@ $\NC^1$回路の値は出力からの深さ優先探索を行うことで
 
 \begin{corollary}
 \label{corollary:start}
-以下の任意の2つのクラスを分割する神託$\alpha$が存在するならば,
-対応する相対化されていないクラスも分割される.
-\begin{gather*}
+以下の任意の2つのクラスについて, 
+もしこれらを分離する神託$\alpha$が存在するならば,
+対応する相対化されていないクラスも分離される.
+\begin{equation*}
  \AC^0(m, \alpha) 
   \subseteq \TC^0(\alpha)
   \subseteq \NC^1(\alpha)
- \\
   \subseteq \LH(\alpha)
   \subseteq \NLH(\alpha)
-\end{gather*}
+\end{equation*}
 \end{corollary}
 
 \begin{proof}
@@ -483,7 +457,6 @@ $Q^\alpha_i \not = \varepsilon$.
 は$x$を入力とする$\AC^0(\STCONN, \alpha, \beta)$回路で計算可能.
 $\STCONN(\start, \accept, G) = M^{\alpha, \beta}(x)$より
 主張~\ref{claim: NLsubseteqAC0STCONN}は証明された. 
-
 \end{proof}
 
 
@@ -560,10 +533,10 @@ $\cfL(\alpha), \cfNL(\alpha)$においても言える.
  クエリテープが空の実行状態$u'$へ高々深さ$i$のフォークを行い到達可能であること
  と$\STCONN(G_i, u, u') = 1$は同値である. 
  よって深さ$h$の非決定性分岐機械$M$と神託$\alpha$について
- \begin{multline*}
- \STCONN(G_h, \mathrm{START}, \mathrm{ACCEPT}) = 1 \\
+ \begin{equation*}
+ \STCONN(G_h, \mathrm{START}, \mathrm{ACCEPT}) = 1 
  \iff M^\alpha(x) \text{ は受理}
- \end{multline*}
+ \end{equation*}
  が成り立つ.
  つまり$G_h$が$x$を入力とする$\AC^0(\STCONN, \alpha)$回路で計算可能
  ならば, $\cfNL(\alpha) \subseteq \AC^0(\STCONN, \alpha)$.
